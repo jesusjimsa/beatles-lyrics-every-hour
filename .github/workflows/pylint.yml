@@ -20,6 +20,7 @@ jobs:
         pip install twython
     - name: Create auth file
       run: |
+        echo "'''auth module'''" >> auth.py
         echo "API_KEY=1" >> auth.py
         echo "API_SECRET_KEY=1" >> auth.py
         echo "ACCESS_TOKEN=1" >> auth.py
