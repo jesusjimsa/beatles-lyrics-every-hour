@@ -1,5 +1,18 @@
 """Beatles lyrics bot module"""
 import random
+import logging
+from twython import Twython
+from twython import TwythonError
+from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
+
+logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
+
+twitter = Twython(
+    API_KEY,
+    API_SECRET_KEY,
+    ACCESS_TOKEN,
+    ACCESS_TOKEN_SECRET
+)
 
 
 def random_line(afile):
@@ -26,7 +39,14 @@ def random_line(afile):
     return line
 
 
-with open('data/lyrics.txt', 'r', encoding="UTF-8") as f:
-    rline = random_line(f).split('\n')[0]
+try:
+    with open('data/lyrics.txt', 'r', encoding="UTF-8") as f:
+        rline = random_line(f).split('\n')[0]
 
-    print(rline)
+        # print(rline)
+        try:
+            twitter.update_status(status=rline)
+        except TwythonError as e:
+            logging.error("Couldn't send the tweet: %s", e)
+except OSError:
+    logging.error("Couldn't open lyrics file")
