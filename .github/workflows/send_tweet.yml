@@ -2,7 +2,7 @@ name: Send Tweet
 
 on: # Run once every hour and on push
   schedule:
-    - cron: '0 17 * * *'
+    - cron: '0 * * * *'
   push:
 
 jobs:
