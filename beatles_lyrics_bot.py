@@ -26,7 +26,7 @@ def random_line(afile):
     Returns
     -------
     line : str
-        Random line from the file..
+        Random line from the file.
     """
     line = next(afile)
 
