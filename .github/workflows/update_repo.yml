@@ -1,0 +1,22 @@
+name: Update repository
+
+on: # Run once every hour and on push
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  update:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create dummy file
+        run: date +%s > dummy.txt
+      - name: Commit dummy
+        run: |
+          git config --global user.name 'Jesús Jiménez Sánchez'
+          git config --global user.email 'jesusjimsa@icloud.com'
+          git add dummy.txt
+          git commit -am "Dummy commit for Actions"
+          git push
