@@ -28,6 +28,14 @@ jobs:
       shell: bash
       env:
         AUTH: ${{ secrets.AUTH }}
+    - name: Create Mastodon auth file
+      run: |
+        printf "'''auth module for Mastodon'''\n" >> masto_auth.py
+        printf "$MASTO_AUTH" >> masto_auth.py
+        printf "\n" >> masto_auth.py
+      shell: bash
+      env:
+        MASTO_AUTH: ${{ secrets.MASTO_AUTH }}
     - name: Send tweet
       run: |
         python beatles_lyrics_bot.py

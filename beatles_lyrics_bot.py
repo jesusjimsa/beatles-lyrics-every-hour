@@ -3,6 +3,8 @@ import random
 import logging
 from twython import Twython
 from twython import TwythonError
+from mastodon import Mastodon
+from masto_auth import ACCESS_TOKEN_MASTODON
 from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
 
 logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
@@ -13,6 +15,8 @@ twitter = Twython(
     ACCESS_TOKEN,
     ACCESS_TOKEN_SECRET
 )
+
+mastodon = Mastodon(access_token=ACCESS_TOKEN_MASTODON, api_base_url="https://mastodon.world")
 
 
 def random_line(afile):
@@ -46,6 +50,7 @@ try:
         # print(rline)
         try:
             twitter.update_status(status=rline)
+            mastodon.toot(rline)
         except TwythonError as e:
             logging.error("Couldn't send the tweet: %s", e)
 except OSError:

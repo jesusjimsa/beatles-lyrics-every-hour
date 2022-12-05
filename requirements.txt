@@ -1,1 +1,2 @@
 twython==3.9.1
+Mastodon.py==1.8.0
