@@ -12,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Create dummy file
-        run: date +%s > dummy.txt
+        run: date +%s > dummy
       - name: Commit dummy
         run: |
           git config --global user.name 'Jesús Jiménez Sánchez'
           git config --global user.email 'jesusjimsa@icloud.com'
-          git add dummy.txt
+          git add dummy
           git commit -am "Dummy commit for Actions"
           git push
