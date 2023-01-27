@@ -46,11 +46,12 @@ def random_line(afile):
 try:
     with open('data/lyrics.txt', 'r', encoding="UTF-8") as f:
         rline = random_line(f).split('\n')[0]
+        rline = f'{rline} #TheBeatles'
 
         # print(rline)
         try:
             twitter.update_status(status=rline)
-            mastodon.toot(f'{rline} #TheBeatles')
+            mastodon.toot(rline)
         except TwythonError as e:
             logging.error("Couldn't send the tweet: %s", e)
 except OSError:
