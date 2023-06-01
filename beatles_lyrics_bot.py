@@ -50,8 +50,8 @@ try:
 
         # print(rline)
         try:
-            twitter.update_status(status=rline)
             mastodon.toot(rline)
+            twitter.update_status(status=rline)
         except TwythonError as e:
             logging.error("Couldn't send the tweet: %s", e)
 except OSError:
