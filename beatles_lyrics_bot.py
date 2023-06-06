@@ -1,19 +1,18 @@
 """Beatles lyrics bot module"""
 import random
 import logging
-from twython import Twython
-from twython import TwythonError
 from mastodon import Mastodon
 from masto_auth import ACCESS_TOKEN_MASTODON
 from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
+import tweepy
 
 logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
 
-twitter = Twython(
-    API_KEY,
-    API_SECRET_KEY,
-    ACCESS_TOKEN,
-    ACCESS_TOKEN_SECRET
+client = tweepy.Client(
+    consumer_key=API_KEY,
+    consumer_secret=API_SECRET_KEY,
+    access_token=ACCESS_TOKEN,
+    access_token_secret=ACCESS_TOKEN_SECRET
 )
 
 mastodon = Mastodon(access_token=ACCESS_TOKEN_MASTODON, api_base_url="https://mastodon.world")
@@ -51,8 +50,8 @@ try:
         # print(rline)
         try:
             mastodon.toot(rline)
-            twitter.update_status(status=rline)
-        except TwythonError as e:
-            logging.error("Couldn't send the tweet: %s", e)
+            client.create_tweet(text=rline)
+        except tweepy.errors.TweepyException as tw:
+            logging.error("Couldn't send the tweet: %s", tw)
 except OSError:
     logging.error("Couldn't open lyrics file")
