@@ -1,10 +1,10 @@
 """Beatles lyrics bot module"""
 import random
 import logging
+import tweepy
 from mastodon import Mastodon
 from masto_auth import ACCESS_TOKEN_MASTODON
 from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
-import tweepy
 
 logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
 
