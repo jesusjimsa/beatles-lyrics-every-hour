@@ -2,9 +2,12 @@
 import random
 import logging
 import tweepy
+import requests
 from mastodon import Mastodon
+from datetime import datetime, timezone
 from masto_auth import ACCESS_TOKEN_MASTODON
 from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
+from bluesky_auth import BLUESKY_HANDLE, BLUESKY_APP_PASSWORD
 
 logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
 
@@ -42,6 +45,43 @@ def random_line(afile):
     return line
 
 
+def bluesky_post(text):
+    """
+    Send a post to BlueSky.
+    
+    Parameters
+    ----------
+    text : str
+        Text to send to BlueSky
+    """
+    resp = requests.post(
+        "https://bsky.social/xrpc/com.atproto.server.createSession",
+        json={"identifier": BLUESKY_HANDLE, "password": BLUESKY_APP_PASSWORD},
+    )
+    resp.raise_for_status()
+    session = resp.json()
+
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    post = {
+        "$type": "app.bsky.feed.post",
+        "text": text,
+        "createdAt": now,
+    }
+    post["langs"] = ["en-US"]
+
+    resp = requests.post(
+        "https://bsky.social/xrpc/com.atproto.repo.createRecord",
+        headers={"Authorization": "Bearer " + session["accessJwt"]},
+        json={
+            "repo": session["did"],
+            "collection": "app.bsky.feed.post",
+            "record": post,
+        },
+    )
+    resp.raise_for_status()
+
+
 try:
     with open('data/lyrics.txt', 'r', encoding="UTF-8") as f:
         rline = random_line(f).split('\n')[0]
@@ -50,6 +90,7 @@ try:
         # print(rline)
         try:
             mastodon.toot(rline)
+            bluesky_post(rline)
             client.create_tweet(text=rline)
         except tweepy.errors.TweepyException as tw:
             logging.error("Couldn't send the tweet: %s", tw)
