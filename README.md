@@ -3,4 +3,5 @@
 Twitter bot that sends a random line from a Beatles song every hour.
 
 Twitter: [@BeatlesLyricsB](https://twitter.com/beatleslyricsb)  
-Mastodon: [@BeatlesLyricsB@mastodon.world](https://mastodon.world/@BeatlesLyricsB)
+Mastodon: <a rel="me" href="https://mastodon.world/@BeatlesLyricsB">@BeatlesLyricsB@mastodon.world</a>  
+BlueSky: [@beatleslyricsb.bsky.social](https://bsky.app/profile/beatleslyricsb.bsky.social)
