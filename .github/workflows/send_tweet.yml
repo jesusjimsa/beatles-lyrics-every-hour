@@ -39,13 +39,13 @@ jobs:
       env:
         MASTO_AUTH: ${{ secrets.MASTO_AUTH }}
     - name: Create BlueSky auth file
-        run: |
+      run: |
           printf "'''auth module for bluesky'''\n" >> bluesky_auth.py
           printf "$BLUESKY_AUTH" >> bluesky_auth.py
           printf "\n" >> bluesky_auth.py
-        shell: bash
-        env:
-          MASTO_AUTH: ${{ secrets.BLUESKY_AUTH }}
+      shell: bash
+      env:
+        BLUESKY_AUTH: ${{ secrets.BLUESKY_AUTH }}
     - name: Send tweet
       run: |
         python beatles_lyrics_bot.py
