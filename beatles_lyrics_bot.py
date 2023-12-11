@@ -1,13 +1,13 @@
 """Beatles lyrics bot module"""
 import random
 import logging
+from datetime import datetime, timezone
 import tweepy
 import requests
 from mastodon import Mastodon
-from datetime import datetime, timezone
 from masto_auth import ACCESS_TOKEN_MASTODON
-from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
 from bluesky_auth import BLUESKY_HANDLE, BLUESKY_APP_PASSWORD
+from auth import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_SECRET_KEY
 
 logging.basicConfig(filename='beatles.log', level=logging.DEBUG)
 
@@ -48,7 +48,7 @@ def random_line(afile):
 def bluesky_post(text):
     """
     Send a post to BlueSky.
-    
+
     Parameters
     ----------
     text : str
@@ -57,6 +57,7 @@ def bluesky_post(text):
     resp = requests.post(
         "https://bsky.social/xrpc/com.atproto.server.createSession",
         json={"identifier": BLUESKY_HANDLE, "password": BLUESKY_APP_PASSWORD},
+        timeout=10,
     )
     resp.raise_for_status()
     session = resp.json()
@@ -78,6 +79,7 @@ def bluesky_post(text):
             "collection": "app.bsky.feed.post",
             "record": post,
         },
+        timeout=10,
     )
     resp.raise_for_status()
 
