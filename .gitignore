@@ -221,4 +221,5 @@ cython_debug/
 
 auth.py
 masto_auth.py
+bluesky_auth.py
 .vscode/
