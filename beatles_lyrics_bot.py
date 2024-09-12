@@ -64,10 +64,28 @@ def bluesky_post(text):
 
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
+    hashtag = "#TheBeatles"
+    hashtag_start = text.find(hashtag)
+    hashtag_end = hashtag_start + len(hashtag)
+
     post = {
         "$type": "app.bsky.feed.post",
         "text": text,
         "createdAt": now,
+        "facets": [
+            {
+                "index": {
+                    "byteStart": hashtag_start,
+                    "byteEnd": hashtag_end
+                },
+                "features": [
+                    {
+                        "$type": "app.bsky.richtext.facet#tag",
+                        "tag": "TheBeatles"
+                    }
+                ]
+            }
+        ]
     }
     post["langs"] = ["en-US"]
 
