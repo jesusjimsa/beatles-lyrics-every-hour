@@ -1,2 +1,2 @@
 Mastodon.py==1.8.1
-tweepy==4.14.0
+tweepy==4.15.0
