@@ -1,2 +1,2 @@
-Mastodon.py==2.1.4
+Mastodon.py==2.2.1
 tweepy==4.16.0
